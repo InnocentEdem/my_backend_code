@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       this.hasMany(post,{foreignKey:"userId"})
     }
     toJSON(){
-      return {...this.get(),id:undefined}
+      return {...this.get(),id:undefined,password:undefined}
     }
   }
   user.init({
