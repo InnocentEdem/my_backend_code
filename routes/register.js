@@ -17,16 +17,16 @@ router.post("/register", async(req,res)=>{
             where:{email}
         })
         if(checkUser){
-            throw new Error(" User with Email already exists")
+            return res.status(401).json(" User with Email already exists")
         }
         const hashedPassword = await bcrypt.hash(password,10)
         console.log(hashedPassword);
-        await user.create({firstname,lastname,email,hashedPassword,role})
+        await user.create({firstname,lastname,email,password:hashedPassword,role})
         res.status(201).json("User created successfully")
 
     }catch(err){
         console.log(err)
-        res.json(err)
+        res.status(401).send(err)
 
     }
 
