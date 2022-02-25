@@ -18,8 +18,13 @@ const user_login = async(req, res, next)=>{
      if(!isMatched){
          return res.status(401).json("Username or Password does not exist  or is incorrect")
      }
-     const accessToken = await jwt.sign(email, process.env.ACCESS_TOKEN_SECRET) //require('crypto').randomBytes(64).toString('hex')
-     const refreshToken = await jwt.sign(email, process.env.REFRESH_TOKEN);
+     const data = {
+         uuid: userDetails.uuid,
+         email,
+         role:userDetails.role
+     }
+     const accessToken = await jwt.sign(data, process.env.ACCESS_TOKEN_SECRET,{expiresIn: "100 s"}) //require('crypto').randomBytes(64).toString('hex')
+     const refreshToken = await jwt.sign(data, process.env.REFRESH_TOKEN);
      await refresh_token.create({refresh_token: refreshToken})
      return res.json({message:"Login Successful", accessToken, refreshToken,uuid:userDetails.uuid})
  

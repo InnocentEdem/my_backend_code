@@ -2,13 +2,13 @@
 const { sequelize,user,post,refresh_token } = require('../../models');
 
 const get_one_user = async(req,res,next)=>{
-    const email = req.params.email;
-    console.log(email);
+    const uuid = req.params.uuid;
+    console.log(req);
     try{
         const user1 = await user.findOne({
-            where: { email }
+            where: { uuid }
         })
-        const userPosts = await post.findAll({where:{id:user1.id}})
+        const userPosts = await post.findAll()
         return res.status(200).json({user:{...user1},posts:{...userPosts}})
     }catch(err){
         console.log(err);

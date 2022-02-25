@@ -1,16 +1,24 @@
+const { request } = require("express");
+const jwt = require('jsonwebtoken')
 
 async function authenticateToken(req,res,next){
+
     const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1];
-    if(authHeader===null){
-        return res.sendStatus(401)
+    if(authHeader.length <= 6){
+        return res.sendStatus(400)
     }
+    const token = authHeader && authHeader.split(' ')[1];
+
+    
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, (err, user)=>{
         if(err){
-            return res.sendStatus(403)
+            return res.status(403)
+        }
+        const {uuid} = req.body
+        if(uuid !== user.uuid){
+            return res.sendStatus(400)
         }
         req.user = user;
-        console.log(user);
         next();
     })
 
