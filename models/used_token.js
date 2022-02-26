@@ -3,24 +3,22 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class refresh_token extends Model {
+  class used_token extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({used_token}) {
+    static associate() {
       // define association here
     }
   }
-  refresh_token.init({
-    token:{ 
-      type:DataTypes.STRING,
-      allowNull:false
-    }
+  used_token.init({
+    token: DataTypes.STRING,
+    new_token:DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'refresh_token',
+    modelName: 'used_token',
   });
-  return refresh_token;
+  return used_token;
 };

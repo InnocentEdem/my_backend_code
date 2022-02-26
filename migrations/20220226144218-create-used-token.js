@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('refresh_tokens', {
+    await queryInterface.createTable('used_tokens', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,7 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       token: {
-        allowNull: false,
+        type: Sequelize.STRING
+      },
+      new_token: {
         type: Sequelize.STRING
       },
       refresh_token_id: {
@@ -26,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('refresh_tokens');
+    await queryInterface.dropTable('used_tokens');
   }
 };

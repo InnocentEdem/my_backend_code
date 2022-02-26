@@ -17,5 +17,7 @@ app.use("/", routes)
 
 app.listen(PORT,()=>{
     console.log(`Server listening on Port ${PORT}`);
+    // sequelize.sync()
+
     sequelize.authenticate()
 })
