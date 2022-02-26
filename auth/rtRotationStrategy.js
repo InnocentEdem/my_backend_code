@@ -10,7 +10,7 @@ const checkRace = async(token)=>{
         })
 
         if(result){
-            await incident_log.create({type:"Token Re-use",time_stamp:new Date.now(),comments:`new: ${result.new_token} old: ${token}`})
+            await incident_log.create({type:"Token Re-use",time_stamp: Date.now(),comments:result.id})
             await refresh_token.destroy({
                 where:{token: result.token}
             })
