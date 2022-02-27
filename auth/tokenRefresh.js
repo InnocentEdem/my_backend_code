@@ -14,21 +14,19 @@ const token_refresh = async(req,res)=>{
     if(token === null){
         return res.sendStatus(401)
     }
-    // const {accessToken,refreshToken} = await rotationStrategy(token)    //rotation strategy
-    // if(accessToken && refreshToken){
-    //     return res.json({refreshToken,accessToken})
-    // }else{
-    //     res.sendStatus(401)
-    // }
-
+    if(process.env.JWT_STRATEGY === "jwt_in_httpOnly_cookie"){
+        const {accessToken,refreshToken} = await rotationStrategy(token)    //rotation strategy
+        if(accessToken && refreshToken){
+            return res.json({refreshToken,accessToken})
+        }else{
+            res.sendStatus(401)
+        }
+    }
     const {accessToken} = await httpCookieStrategy(req.cookies)   //http cookie strategy
     if(accessToken){
-        return res.json({refreshToken,accessToken})
+        return res.json({accessToken})
     }else{
         res.sendStatus(401)
     }
-
-
-
 }
 module.exports = token_refresh

@@ -16,5 +16,4 @@ router.use(createPost)
 router.use(registration)
 
 
-
  module.exports = router;
