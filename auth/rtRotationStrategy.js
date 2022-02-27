@@ -1,7 +1,8 @@
-const {user, used_token,refresh_token, incident_log} = require('../models')
+const {user, used_token,refresh_token, incident_log} = require("../models")
 const jwt = require("jsonwebtoken")
 
 const checkRace = async(token)=>{
+
     try{
         const result = await used_token.findOne({
             where:{
@@ -26,18 +27,16 @@ const checkRace = async(token)=>{
             where:{token}
         })
         const {uuid,email,role} = jwt.verify(token,process.env.REFRESH_TOKEN)
-        console.log(uuid,email,role);
         if(uuid && email && role){
-            accessToken =  jwt.sign({uuid,email,role},process.env.ACCESS_TOKEN_SECRET,{expiresIn:"600s"})
-            refreshToken = jwt.sign({uuid,email,role},process.env.REFRESH_TOKEN,{expiresIn:"6000s"})
+            const accessToken =  jwt.sign({uuid,email,role},process.env.ACCESS_TOKEN_SECRET,{expiresIn:"600s"})
+            const refreshToken = jwt.sign({uuid,email,role},process.env.REFRESH_TOKEN,{expiresIn:"6000s"})
             await used_token.create({token, new_token:refreshToken})
-
+            res.cookie.set({hi:"low"})
         return { accessToken, refreshToken}
         }
         
     }catch(err){
-        console.log(err);
-        return err
+        return {erorr: err}
 
     }
 }

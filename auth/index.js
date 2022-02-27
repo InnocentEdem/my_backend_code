@@ -13,9 +13,6 @@ async function authenticateToken(req,res,next){
 
     
     jwt.verify(token,process.env.ACCESS_TOKEN_SECRET, (err, user)=>{  
-        console.log(err);
-
-
         if(err){
             return res.sendStatus(401)
         }
@@ -23,7 +20,6 @@ async function authenticateToken(req,res,next){
         if(uuid !== user.uuid){
             return res.sendStatus(400)
         }
-        console.log("authorized");
         req.user = user;
         next();
     })
